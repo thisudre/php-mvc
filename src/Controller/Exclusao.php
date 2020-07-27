@@ -7,6 +7,8 @@ use Alura\Cursos\Infra\EntityManagerCreator;
 
 class Exclusao implements InterfaceControladorRequisicao
 {
+    private $entityManager;
+
     public function __construct() {
         $this->entityManager = (new EntityManagerCreator())->getEntityManager();
     }
