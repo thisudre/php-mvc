@@ -3,9 +3,12 @@
 namespace Alura\Cursos\Controller;
 
 use Alura\Cursos\Entity\Usuario;
+use Alura\Cursos\Helper\FlashMessageTrait;
 use Alura\Cursos\Infra\EntityManagerCreator;
 
 class RealizarLogin extends ControllerComHtml implements InterfaceControladorRequisicao{
+    use FlashMessageTrait;
+    
     private $repositorioUsuarios;
 
     public function __construct() {
@@ -18,7 +21,8 @@ class RealizarLogin extends ControllerComHtml implements InterfaceControladorReq
         $senha = filter_input(INPUT_POST, 'senha', FILTER_SANITIZE_STRING);
 
         if (is_null($email) || $email === false || is_null($senha) || $senha === false) {
-            echo "dados incorretos";
+            $this->enviaMensagem('Dados inválidos', 'danger');
+            header('Location: /login');
             return;
         }
 
@@ -28,14 +32,17 @@ class RealizarLogin extends ControllerComHtml implements InterfaceControladorReq
         ]);
 
         if (is_null($usuario)) {
-            echo "usuario não encontrado";
+            $this->enviaMensagem('Usuário não encontrado!', 'danger');
+            header('Location: /login');
             return;
         }
         if (!$usuario->senhaEstaCorreta($senha)) {
-            echo "senha incorreta";
+            $this->enviaMensagem('Senha incorreta', 'danger');
+            header('Location: /login');
             return;
         }
 
+        $_SESSION['logado'] = true;
         header('Location: /listar-cursos', true, 302);
 
     }
