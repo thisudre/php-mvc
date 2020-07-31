@@ -6,7 +6,7 @@ use Alura\Cursos\Entity\Usuario;
 use Alura\Cursos\Helper\FlashMessageTrait;
 use Alura\Cursos\Infra\EntityManagerCreator;
 
-class RealizarLogin extends ControllerComHtml implements InterfaceControladorRequisicao{
+class RealizarLogin implements InterfaceControladorRequisicao{
     use FlashMessageTrait;
     
     private $repositorioUsuarios;
